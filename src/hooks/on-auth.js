@@ -1,30 +1,30 @@
-const constants = require('../constants')
-const set = require('../utilities/env-set')
-const exists = require('../utilities/path-exists')
-const read = require('../utilities/read-file')
+const env = require('../utilities/env')
 const log = require('../utilities/log')
 
 const handler = async (auth, session, callback) => {
-  // Check that users path is set
-  if (set('MAILSERVER_AUTH_VALID_USERS_PATH')) {
-    const path = constants.PATH.AUTH.VALID_USERS_PATH
+  const pathKey = 'MAILSERVER_AUTH_VALID_USERS_PATH'
 
-    // Check that file exists
-    if (await exists(path)) {
-      const data = await read(path)
-      const obj = JSON.parse(data)
+  // Check that path key is set
+  if (env.isset(pathKey)) {
+    const users = await env.open(pathKey)
 
+    // Check that valid JSON file exists
+    if (users !== false) {
       // Attempt to find username in supplied valid users and compare passwords
-      if (!obj[auth.username] || obj[auth.username] !== auth.password) {
+      if (!users[auth.username] || users[auth.username] !== auth.password) {
         log.warn(`${auth.username} unsuccessfully authenticated.`)
+        callback(new Error('Invalid username or password.'))
 
-        return callback(new Error('Invalid username or password'))
+        return
       }
     } else {
-      log.warn(`'MAILSERVER_AUTH_VALID_USERS_PATH' set but path did not exist (${path}).`)
+      log.error('Invalid JSON valid users file.')
+      callback(new Error('Invalid username or password.'))
+
+      return
     }
   } else {
-    log.warn('`MAILSERVER_AUTH_VALID_USERS_PATH` is not set.')
+    log.warn(`'${pathKey}' is not set.`)
   }
 
   log.info(`${auth.username} successfully authenticated.`)

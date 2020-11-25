@@ -1,4 +1,4 @@
-const env = require('./utilities/load-env')
+const env = require('./utilities/env')
 
 function main () {
   env.load()
