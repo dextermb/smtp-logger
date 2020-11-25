@@ -1,0 +1,6 @@
+.vscode/
+.code/
+.idea/
+
+.git/
+node_modules/

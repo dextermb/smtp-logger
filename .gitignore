@@ -1,0 +1,6 @@
+.vscode/
+.code/
+.idea/
+
+node_modules/
+.env

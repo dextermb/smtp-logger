@@ -1,0 +1,20 @@
+{
+  "name": "smtp-logger",
+  "private": true,
+  "scripts": {
+    "boot": "node ./boot.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.20",
+    "lowdb": "^1.0.0",
+    "mailparser": "^3.0.0",
+    "make-dir": "^3.1.0",
+    "nodemailer": "^6.4.16",
+    "pkg-dir": "^5.0.0",
+    "smtp-server": "^3.8.0",
+    "uuid": "^8.3.1",
+    "winston": "^3.3.3"
+  }
+}

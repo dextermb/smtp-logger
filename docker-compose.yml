@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  smtp:
+    build: .
+    ports:
+      - "25:25"
+      - "80:80"
+    env_file:
+      - ./.env
+    volumes:
+      - "./custom:/var/smtp-logger/custom"
+      - "storage:/var/smtp-logger"
+
+volumes:
+  storage:
