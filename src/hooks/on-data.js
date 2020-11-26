@@ -41,6 +41,7 @@ const handler = (stream, { user }, callback) => {
           switch (scope) {
             case constants.SERVER.REDACT.SCOPE.SUBJECT:
               if (parsed.subject) {
+                // TODO: Check headers and headerLines for subject
                 if (regexp.test(parsed.subject)) {
                   skip = true
                 }
