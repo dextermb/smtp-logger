@@ -9,7 +9,13 @@ const os = require('os')
 
 const SERVER = {
   HOSTNAME: process.env.MAILSERVER_HOSTNAME || os.hostname(),
-  PORT: process.env.MAILSERVER_PORT || 25
+  PORT: process.env.MAILSERVER_PORT || 25,
+  REDACT: {
+    SCOPE: {
+      SUBJECT: 'subject',
+      CONTENT: 'content'
+    }
+  }
 }
 
 module.exports = SERVER

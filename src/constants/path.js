@@ -1,3 +1,4 @@
+const path = require('path')
 const env = process.env
 
 /**
@@ -24,10 +25,12 @@ const PATH = {
     VALID_RECEIVER_EMAILS_PATH: env.MAILSERVER_AUTH_VALID_RECEIVER_EMAILS_PATH
   },
   REDACT: {
-    FILTERS_PATH: env.MAILSERVER_REDACT_FILTERS_PATH
+    FILTERS_PATH: env.MAILSERVER_REDACT_FILTERS_PATH,
+    RULES_PATH: env.MAILSERVER_REDACT_RULES_PATH
   },
-  LOGGER: {
-    ALL_PATH: '/var/smtp-logger/events.log'
+  STORAGE: {
+    LOGS: '/var/smtp-logger/logs/events.log',
+    MAIL: (...args) => path.join('/var/smtp-logger/storage/mail', ...args)
   }
 }
 

@@ -6,7 +6,7 @@ const handler = (
     level: 'silly',
     transports: [
       new winston.transports.Console({ format: winston.format.simple() }),
-      new winston.transports.File({ filename: constants.PATH.LOGGER.ALL_PATH })
+      new winston.transports.File({ filename: constants.PATH.STORAGE.LOGS })
     ]
   })
 )

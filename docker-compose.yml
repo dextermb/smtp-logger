@@ -10,7 +10,9 @@ services:
       - ./.env
     volumes:
       - "./custom:/var/smtp-logger/custom"
-      - "storage:/var/smtp-logger"
+      - "logs:/var/smtp-logger/storage/logs"
+      - "mail:/var/smtp-logger/storage/mail"
 
 volumes:
-  storage:
+  logs:
+  mail:
