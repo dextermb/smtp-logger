@@ -4,6 +4,8 @@ const log = require('../utilities/log')
 const handler = async (auth, session, callback) => {
   const pathKey = 'MAILSERVER_AUTH_VALID_USERS_PATH'
 
+  log.info('onAuth')
+
   // Check that path key is set
   if (env.isset(pathKey)) {
     const users = await env.open(pathKey)
