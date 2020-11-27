@@ -10,7 +10,7 @@ async function main () {
   const opts = hooks
 
   opts.hostname = constants.SERVER.HOSTNAME
-  opts.logger = true
+  opts.logger = constants.SERVER.DEBUG
 
   log.verbose('Starting SMTP server.')
   log.info('Checking for SSL configuration.')
@@ -53,8 +53,6 @@ async function main () {
       log.info(`SMTP server running on port ${port}.`)
     }
   )
-
-  server.updateSecureContext(opts => log.debug(opts))
 
   server.on('error', err => {
     log.verbose(err.message)
