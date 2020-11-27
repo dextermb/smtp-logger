@@ -16,6 +16,6 @@ COPY --from=BUILD_IMAGE /usr/src/app/node_modules ./node_modules
 COPY . .
 
 EXPOSE 25
-EXPOSE 587
+EXPOSE 465
 
 CMD ["yarn", "run", "boot"]

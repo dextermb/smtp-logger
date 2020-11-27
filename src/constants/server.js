@@ -4,14 +4,13 @@ const os = require('os')
  * Various server configuration options
  *
  * MAILSERVER_HOSTNAME
- * MAILSERVER_PORT
  */
 
 const SERVER = {
   HOSTNAME: process.env.MAILSERVER_HOSTNAME || os.hostname(),
   PORTS: {
     NORM: 25,
-    SSL: 587 // or 465
+    SSL: 465 // or 587
   },
   REDACT: {
     SCOPE: {
