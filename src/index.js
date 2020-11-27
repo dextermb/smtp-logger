@@ -29,7 +29,7 @@ async function main () {
       opts.secure = true
       opts.key = fs.readFileSync(keyPath)
       opts.cert = fs.readFileSync(certPath)
-      opts.secureOpts = tls.SSL_OP_NO_TLSv1 | tls.SSL_OP_NO_TLSv1_1 | tls.SSL_OP_NO_TLSv1_2
+      opts.secureOptions = tls.SSL_OP_NO_TLSv1 | tls.SSL_OP_NO_TLSv1_1 | tls.SSL_OP_NO_SSLv2 | tls.SSL_OP_NO_SSLv3
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
