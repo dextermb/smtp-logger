@@ -31,6 +31,7 @@ async function main () {
       opts.key = fs.readFileSync(keyPath)
       opts.cert = fs.readFileSync(certPath)
       opts.ca = fs.readFileSync(caPath)
+      opts.minVersion = 'TLSv1'
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
@@ -51,6 +52,8 @@ async function main () {
       log.info(`SMTP server running on port ${port}.`)
     }
   )
+
+  server.updateSecureContext(opts => log.debug(opts))
 
   server.on('error', err => {
     log.verbose(err.message)
