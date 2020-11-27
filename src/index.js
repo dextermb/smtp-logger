@@ -1,6 +1,5 @@
 const fs = require('fs')
 const SMTP = require('smtp-server').SMTPServer
-const { constants: tls } = require('crypto')
 
 const constants = require('./constants')
 const hooks = require('./hooks')
@@ -18,18 +17,20 @@ async function main () {
 
   const keyPath = constants.PATH.SSL.KEY_PATH
   const certPath = constants.PATH.SSL.CERT_PATH
+  const caPath = constants.PATH.SSL.CA_PATH
 
   // Check that SSL paths are set
-  if (keyPath && certPath) {
+  if (keyPath && certPath && caPath) {
     const keyExists = await file.exists(keyPath)
     const certExists = await file.exists(certPath)
+    const caExists = await file.exists(caPath)
 
     // Check that SSL paths exist
-    if (keyExists && certExists) {
+    if (keyExists && certExists && caExists) {
       opts.secure = true
       opts.key = fs.readFileSync(keyPath)
       opts.cert = fs.readFileSync(certPath)
-      opts.secureOptions = tls.SSL_OP_NO_TLSv1 | tls.SSL_OP_NO_TLSv1_1 | tls.SSL_OP_NO_SSLv2 | tls.SSL_OP_NO_SSLv3
+      opts.ca = fs.readFileSync(caPath)
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
