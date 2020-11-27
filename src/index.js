@@ -11,6 +11,7 @@ async function main () {
   const opts = hooks
 
   opts.hostname = constants.SERVER.HOSTNAME
+  opts.logger = true
 
   log.verbose('Starting SMTP server.')
   log.info('Checking for SSL configuration.')
