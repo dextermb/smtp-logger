@@ -38,8 +38,8 @@ async function main () {
 
   const port =
     opts.secure
-      ? constants.SERVER.PORTS.NORM
-      : constants.SERVER.PORTS.SSL
+      ? constants.SERVER.PORTS.SSL
+      : constants.SERVER.PORTS.NORM
 
   server.listen(
     port,
