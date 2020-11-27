@@ -3,26 +3,18 @@
 _This project is currently under development._
 
 <br />
-<br />
-<br />
 
 ## Initial Setup
-
-<br />
 
 ### Prerequisites
 
 * Docker
 * Docker Compose
 
-<br />
-
 ### Development Prerequisites
 
 * Node
 * Yarn
-
-<br />
 
 ### Setup
 
@@ -42,8 +34,6 @@ docker-compose up
 ```
 
 By default (without SSL) the SMTP logger is listening on port `25`.
-
-<br />
 
 ---
 
@@ -66,7 +56,7 @@ Configuration options are done through either the `docker-compose.yml` or the `.
 | `MAILSERVER_REDACT_RULES_PATH`          | `/var/smtp-logger/custom/rules.json`        | The rules file should be valid JSON and defining a key of a regular expression pattern with a `scope` property. By default this is not set.                                                         |
 | `MAILSERVER_REDACT_FILTERS_PATH`        | `/var/smtp-logger/custom/filters.json`      | The rules file should be valid JSON and defining a key of a regular expression pattern with `scope` and `replacement` properties. By default this is not set.                                       |
 
-<br />
+---
 
 ### SSL/TLS
 
@@ -78,8 +68,6 @@ smtp_1  | info: SMTP server running on port 25.
 ```
 
 Setting up a secure SMTP server is easy. Simply move or copy your certificates into the `./custom[/certs]` directory and update your `.env` file. I recommend using `certbot` to install certificates onto the server. Skip the steps involving `certbot` if you already have a certificate.
-
-<br />
 
 #### Retrieving certificates from `certbot`
 
@@ -97,8 +85,6 @@ After running `certbot certonly` pick the standalone web server options, enter y
 /etc/letsencrypt/live/<domain>/cert.pem
 /etc/letsencrypt/live/<domain>/chain.pem
 ```
-
-<br />
 
 #### Moving and setting paths
 
@@ -118,8 +104,6 @@ MAILSERVER_SSL_CERT_PATH=/var/smtp-logger/custom/certs/server.crt
 MAILSERVER_SSL_CA_PATH=/var/smtp-logger/custom/certs/ca.pem
 ```
 
-<br />
-
 A docker container rebuild is not required after moving your certificates, but a restart is. Once restarted you will see a message saying that SSL is enabled:
 
 ```
@@ -128,7 +112,7 @@ smtp_1  | info: Checking for SSL configuration.
 smtp_1  | info: SMTP server running on port 465.
 ```
 
-<br />
+---
 
 ### Users
 
@@ -167,10 +151,9 @@ And an unsuccesful message can be seen when a user fails to sign in:
 smtp_1  | verbose: bad@acme.com unsuccessfully authenticated.
 ```
 
-<br />
+---
 
 ### IPs
 
-<br />
 ---
 
