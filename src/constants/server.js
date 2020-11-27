@@ -9,7 +9,10 @@ const os = require('os')
 
 const SERVER = {
   HOSTNAME: process.env.MAILSERVER_HOSTNAME || os.hostname(),
-  PORT: process.env.MAILSERVER_PORT || 25,
+  PORTS: {
+    NORM: 25,
+    SSL: 465
+  },
   REDACT: {
     SCOPE: {
       SUBJECT: 'subject',

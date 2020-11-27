@@ -3,7 +3,6 @@ const SMTP = require('smtp-server').SMTPServer
 
 const constants = require('./constants')
 const hooks = require('./hooks')
-
 const log = require('./utilities/log')
 const file = require('./utilities/file')
 
@@ -36,7 +35,11 @@ async function main () {
   }
 
   const server = new SMTP(opts)
-  const port = constants.SERVER.PORT
+
+  const port =
+    opts.secure
+      ? constants.SERVER.PORTS.NORM
+      : constants.SERVER.PORTS.SSL
 
   server.listen(
     port,
