@@ -1,5 +1,6 @@
 const fs = require('fs')
 const SMTP = require('smtp-server').SMTPServer
+const { constants: tls } = require('crypto')
 
 const constants = require('./constants')
 const hooks = require('./hooks')
@@ -27,6 +28,7 @@ async function main () {
       opts.secure = true
       opts.key = fs.readFileSync(keyPath)
       opts.cert = fs.readFileSync(certPath)
+      opts.secureOpts = tls.SSL_OP_NO_TLSv1 | tls.SSL_OP_NO_TLSv1_1 | tls.SSL_OP_NO_TLSv1_2
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
