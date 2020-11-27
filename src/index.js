@@ -28,10 +28,11 @@ async function main () {
     // Check that SSL paths exist
     if (keyExists && certExists && caExists) {
       opts.secure = true
+      opts.minVersion = constants.SERVER.SSL.MIN_VERSION
+
       opts.key = fs.readFileSync(keyPath)
       opts.cert = fs.readFileSync(certPath)
       opts.ca = fs.readFileSync(caPath)
-      opts.minVersion = 'TLSv1'
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
