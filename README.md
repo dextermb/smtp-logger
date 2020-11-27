@@ -123,7 +123,7 @@ smtp_1  | verbose: any@acme.com successfully authenticated.
 
 When signing into the SMTP server by default any user is enabled.
 
-#### Restricting access
+#### Restricting Access
 
 To restrict which users can sign into the server create a `users.json` file within `./custom`:
 
@@ -139,8 +139,6 @@ Then update your `.env` using the base path.
 MAILSERVER_AUTH_VALID_USERS_PATH=/var/smtp-logger/custom/users.json
 ```
 
-<br />
-
 A success message can be seen when a user successfully signs in:
 ```
 smtp_1  | verbose: logs@acme.com successfully authenticated.
@@ -154,6 +152,86 @@ smtp_1  | verbose: bad@acme.com unsuccessfully authenticated.
 ---
 
 ### IPs
+
+When signing into the SMTP server by default any IP is enabled.
+
+#### Restricting Access
+
+To restrict which IPs can sign into the server create a `ips.json` file within `./custom`:
+
+```json
+[]
+```
+
+Then update your `.env` using the base path.
+
+```
+MAILSERVER_AUTH_VALID_IPS_PATH=/var/smtp-logger/custom/ips.json
+```
+
+---
+
+### Senders
+
+When sending emails any email address is allowed by default.
+
+#### Restricting Access
+
+To restrict which senders can be used create a `senders.json` file within `./custom`:
+
+```json
+[
+  "logs@acme.com"
+]
+```
+
+Then update your `.env` using the base path.
+
+```
+MAILSERVER_VALID_SENDER_EMAILS_PATH=/var/smtp-logger/custom/senders.json
+```
+
+---
+
+### Receivers
+
+When receiving emails any email address is allowed by default. Note that these are never relayed.
+
+#### Restricting Access
+
+To restrict which receivers can be used create a `receivers.json` file within `./custom`:
+
+```json
+[
+  "boss@acme.com"
+]
+```
+
+Then update your `.env` using the base path.
+
+```
+MAILSERVER_VALID_RECEIVER_EMAILS_PATH=/var/smtp-logger/custom/receivers.json
+```
+
+---
+
+### Rules
+
+When signing into the SMTP server by default any IP is enabled.
+
+#### Restricting Access
+
+To restrict which receivers can be used create a `receivers.json` file within `./custom`:
+
+```json
+[]
+```
+
+Then update your `.env` using the base path.
+
+```
+MAILSERVER_VALID_RECEIVER_EMAILS_PATH=/var/smtp-logger/custom/receivers.json
+```
 
 ---
 
