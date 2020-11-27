@@ -50,6 +50,11 @@ async function main () {
       log.info(`SMTP server running on port ${port}.`)
     }
   )
+
+  server.on('error', err => {
+    log.verbose(err.message)
+    log.error(err)
+  })
 }
 
 main()
