@@ -11,7 +11,7 @@ const SERVER = {
   HOSTNAME: process.env.MAILSERVER_HOSTNAME || os.hostname(),
   PORTS: {
     NORM: 25,
-    SSL: 465
+    SSL: 587 // or 465
   },
   REDACT: {
     SCOPE: {
