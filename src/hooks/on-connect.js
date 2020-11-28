@@ -9,13 +9,15 @@ const handler = async ({ remoteAddress }, callback) => {
   if (env.isset(pathKey)) {
     const ips = await file.json(env.get(pathKey))
 
+    log.info(`${remoteAddress} is attempting to connect.`)
+
     // Check that valid JSON file exists
     if (ips && Array.isArray(ips)) {
       // Attempt to find a 1:1 ip address
       if (ips.indexOf(remoteAddress) === -1) {
         const wildcards = ips.filter(ip => ip.includes('*'))
 
-        log.info('Direct IP match not found.')
+        log.debug('Direct IP match not found.')
 
         if (wildcards.length === 0) {
           log.verbose(`${remoteAddress} blocked.`)
@@ -27,7 +29,7 @@ const handler = async ({ remoteAddress }, callback) => {
         const rbits = remoteAddress.split('.')
         let valid = false
 
-        log.info(`${wildcards.length} potential matching wildcards.`)
+        log.debug(`${wildcards.length} potential matching wildcard(s).`)
 
         // Compare IP bits to allow for wildcards
         for (let i = 0; i < wildcards.length; i++) {
@@ -35,7 +37,7 @@ const handler = async ({ remoteAddress }, callback) => {
           const tests = []
 
           if (rbits.length !== wbits.length) {
-            log.warn(`Skipping ${wildcards[i]} check as it has a different number of bits.`)
+            log.debug(`Skipping ${wildcards[i]} check as it has a different number of bits.`)
 
             continue
           }
@@ -70,7 +72,7 @@ const handler = async ({ remoteAddress }, callback) => {
       log.error(`Invalid ${pathKey} JSON provided.`)
     }
   } else {
-    log.warn(`'${pathKey}' is not set.`)
+    log.debug(`'${pathKey}' is not set.`)
   }
 
   log.verbose(`${remoteAddress} successfully accepted.`)
