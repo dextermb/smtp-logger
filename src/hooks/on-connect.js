@@ -15,6 +15,8 @@ const handler = async ({ remoteAddress }, callback) => {
       if (ips.indexOf(remoteAddress) === -1) {
         const wildcards = ips.filter(ip => ip.includes('*'))
 
+        log.info('Direct IP match not found.')
+
         if (wildcards.length === 0) {
           log.verbose(`${remoteAddress} blocked.`)
           callback(new Error(`Connections from ${remoteAddress} is not allowed.`))
@@ -25,12 +27,16 @@ const handler = async ({ remoteAddress }, callback) => {
         const rbits = remoteAddress.split('.')
         let valid = false
 
+        log.info(`${wildcards.length} potential matching wildcards.`)
+
         // Compare IP bits to allow for wildcards
         for (let i = 0; i < wildcards.length; i++) {
           const wbits = wildcards[i].split('.')
           const tests = []
 
           if (rbits.length !== wbits.length) {
+            log.warn(`Skipping ${wildcards[i]} check as it has a different number of bits.`)
+
             continue
           }
 
