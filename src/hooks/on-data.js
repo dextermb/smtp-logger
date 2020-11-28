@@ -29,7 +29,7 @@ const handler = (stream, { user }, callback) => {
       if (obj && typeof obj === 'object') {
         const rules = Object.entries(obj)
 
-        log.info(`${rules.length} rule(s) found.`)
+        log.debug(`${rules.length} rule(s) found.`)
 
         // Loop through each available rule
         for (let i = 0; i < rules.length; i++) {
@@ -67,7 +67,7 @@ const handler = (stream, { user }, callback) => {
         log.error(`Invalid ${rulesPath} JSON provided.`)
       }
     } else {
-      log.warn(`'${rulesPath}' is not set.`)
+      log.debug(`'${rulesPath}' is not set.`)
     }
 
     // Check that the filters file exists
@@ -77,7 +77,7 @@ const handler = (stream, { user }, callback) => {
       if (obj && typeof obj === 'object') {
         const filters = Object.entries(obj)
 
-        log.info(`${filters.length} filter(s) found.`)
+        log.debug(`${filters.length} filter(s) found.`)
 
         // Loop through each available filter
         for (let i = 0; i < filters.length; i++) {
@@ -106,7 +106,7 @@ const handler = (stream, { user }, callback) => {
         log.error(`Invalid ${filtersPath} JSON provided.`)
       }
     } else {
-      log.warn(`'${filtersPath}' is not set.`)
+      log.debug(`'${filtersPath}' is not set.`)
     }
 
     // Write JSON to file

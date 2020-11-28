@@ -13,7 +13,7 @@ async function main () {
   opts.logger = constants.SERVER.DEBUG
 
   log.verbose('Starting SMTP server.')
-  log.info('Checking for SSL configuration.')
+  log.debug('Checking for SSL configuration.')
 
   const keyPath = constants.PATH.SSL.KEY_PATH
   const certPath = constants.PATH.SSL.CERT_PATH
@@ -37,7 +37,7 @@ async function main () {
       log.warn('SSL configured but invalid paths provided.')
     }
   } else {
-    log.warn('SSL not configured.')
+    log.debug('SSL not configured.')
   }
 
   const server = new SMTP(opts)

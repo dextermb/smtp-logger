@@ -12,6 +12,8 @@ const handler = async (auth, _, callback) => {
   if (env.isset(pathKey)) {
     const users = await file.json(env.get(pathKey))
 
+    log.info(`${auth.username} is attempting to authenticate.`)
+
     // Check that valid JSON file exists
     if (users && typeof users === 'object') {
       // Attempt to find username in supplied valid users and compare passwords
@@ -28,7 +30,7 @@ const handler = async (auth, _, callback) => {
       return
     }
   } else {
-    log.warn(`'${pathKey}' is not set.`)
+    log.debug(`'${pathKey}' is not set.`)
   }
 
   log.verbose(`${auth.username} successfully authenticated.`)
