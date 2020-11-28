@@ -47,8 +47,9 @@ const handler = async ({ remoteAddress }, callback) => {
 
           // Check that all bits passed
           if (tests.filter(t => !t).length === 0) {
-            i = -1
             valid = true
+
+            break
           }
         }
 
