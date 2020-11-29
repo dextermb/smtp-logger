@@ -31,30 +31,18 @@ const handler = async ({ remoteAddress }, callback) => {
 
         log.debug(`${wildcards.length} potential matching wildcard(s).`)
 
-        // Compare IP bits to allow for wildcards
         for (let i = 0; i < wildcards.length; i++) {
-          const wbits = wildcards[i].split('.')
-          const tests = []
+          const curr = wildcards[i]
 
-          if (rbits.length !== wbits.length) {
-            log.debug(`Skipping ${wildcards[i]} check as it has a different number of bits.`)
+          if (remoteAddress.length !== curr.length) {
+            log.debug(`Skipping ${curr} check is a different length.`)
 
             continue
           }
 
-          for (let j = 0; j < wbits.length; j++) {
-            // If wildcard bit then assume true
-            if (wbits[j] === '*') {
-              tests.push(true)
+          const mapped = rbits.map((r, j) => curr[j] === '*' ? '*' : r).join('.')
 
-              continue
-            }
-
-            tests.push(wbits[j] === rbits[j])
-          }
-
-          // Check that all bits passed
-          if (tests.filter(t => !t).length === 0) {
+          if (mapped === curr) {
             valid = true
 
             break
