@@ -1,7 +1,7 @@
 const log = require('../utilities/log')
 
 const handler = (address, session, callback) => {
-  log.info('onRcptTo')
+  log.debug('onRcptTo')
 
   callback()
 }

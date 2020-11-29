@@ -1,7 +1,7 @@
 const log = require('../utilities/log')
 
 const handler = (address, session, callback) => {
-  log.info('onMailFrom')
+  log.debug('onMailFrom')
 
   callback()
 }
