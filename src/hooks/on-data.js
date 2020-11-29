@@ -61,7 +61,7 @@ const handler = (stream, { user }, callback) => {
 
               if (skip === false) {
                 // Check header line subject
-                if (parsed.headerLines && Array.isArray(headerLines)) {
+                if (parsed.headerLines && Array.isArray(parsed.headerLines)) {
                   const headers = parsed.headerLines
                   const header = headers.indexOf(({ key }) => key === 'subject')
 
