@@ -1,4 +1,3 @@
-const fs = require('fs')
 const SMTP = require('smtp-server').SMTPServer
 
 const constants = require('./constants')
@@ -30,9 +29,9 @@ async function main () {
       opts.secure = true
       opts.minVersion = constants.SERVER.SSL.MIN_VERSION
 
-      opts.key = fs.readFileSync(keyPath)
-      opts.cert = fs.readFileSync(certPath)
-      opts.ca = fs.readFileSync(caPath)
+      opts.key = await file.read(keyPath)
+      opts.cert = await file.read(certPath)
+      opts.ca = await file.read(caPath)
     } else {
       log.warn('SSL configured but invalid paths provided.')
     }
