@@ -33,14 +33,15 @@ const handler = async ({ remoteAddress }, callback) => {
 
         for (let i = 0; i < wildcards.length; i++) {
           const curr = wildcards[i]
+          const cbits = curr.split('.')
 
-          if (remoteAddress.length !== curr.length) {
-            log.debug(`Skipping ${curr} check is a different length.`)
+          if (rbits.length !== cbits.length) {
+            log.debug(`Skipping ${curr} check: Different length.`)
 
             continue
           }
 
-          const mapped = rbits.map((r, j) => curr[j] === '*' ? '*' : r).join('.')
+          const mapped = rbits.map((r, j) => cbits[j] === '*' ? '*' : r).join('.')
 
           if (mapped === curr) {
             valid = true
