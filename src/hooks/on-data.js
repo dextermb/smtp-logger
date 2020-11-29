@@ -40,19 +40,49 @@ const handler = (stream, { user }, callback) => {
           // Check that scopes are valid then test
           switch (scope) {
             case constants.SERVER.REDACT.SCOPE.SUBJECT:
+              // Check basic subject
               if (parsed.subject) {
-                // TODO: Check headers and headerLines for subject
                 if (regexp.test(parsed.subject)) {
                   skip = true
                 }
               }
 
+              if (skip === false) {
+                // Check header subject
+                if (parsed.headers && parsed.headers instanceof Map) {
+                  const headers = Array.from(parsed.headers.entries())
+                  const header = headers.findIndex(h => h[0] === 'subject')
+
+                  if (header !== -1 && regexp.test(headers[header][1])) {
+                    skip = true
+                  }
+                }
+              }
+
+              if (skip === false) {
+                // Check header line subject
+                if (parsed.headerLines && Array.isArray(headerLines)) {
+                  const headers = parsed.headerLines
+                  const header = headers.indexOf(({ key }) => key === 'subject')
+
+                  if (header !== -1 && regexp.test(headers[header].line)) {
+                    skip = true
+                  }
+                }
+              }
+
               break
             case constants.SERVER.REDACT.SCOPE.CONTENT:
+              // Check plain text
               if (parsed.text) {
                 skip = regexp.test(parsed.text, 'm')
-              } else if (parsed.textAsHtml) {
-                skip = regexp.test(parsed.textAsHtml, 'm')
+              }
+
+              if (skip === false) {
+                // Check HTML text
+                if (parsed.textAsHtml && typeof parsed.textAsHtml === 'string') {
+                  skip = regexp.test(parsed.textAsHtml, 'm')
+                }
               }
           }
 
@@ -87,8 +117,30 @@ const handler = (stream, { user }, callback) => {
           // Check that scopes are valid then test
           switch (scope) {
             case constants.SERVER.REDACT.SCOPE.SUBJECT:
+              // Filter basic subject
               if (parsed.subject) {
                 parsed.subject = parsed.subject.replace(regexp, replacement)
+              }
+
+              // Filter header subject
+              if (parsed.headers && parsed.headers instanceof Map) {
+                const headers = Array.from(parsed.headers.entries())
+                const header = headers.findIndex(h => h[0] === 'subject')
+
+                if (header !== -1) {
+                  headers[header][1] = headers[header][1].replace(regexp, replacement)
+                  parsed.headers = new Map(headers)
+                }
+              }
+
+              // Filter header line subject
+              if (parsed.headerLines && Array.isArray(parsed.headerLines)) {
+                const headers = parsed.headerlInes
+                const header = headers.indexOf(({ key }) => key === 'subject')
+
+                if (header !== -1) {
+                  parsed.headerLines[header].line = headers[header].line.replace(regexp, replacement)
+                }
               }
 
               break
@@ -97,7 +149,7 @@ const handler = (stream, { user }, callback) => {
                 parsed.text = parsed.text.replace(regexp, replacement)
               }
 
-              if (parsed.textAsHtml) {
+              if (parsed.textAsHtml && typeof parsed.textAsHtml === 'string') {
                 parsed.textAsHtml = parsed.textAsHtml.replace(regexp, replacement)
               }
           }
