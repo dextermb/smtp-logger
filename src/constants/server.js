@@ -1,5 +1,6 @@
 const os = require('os')
 const tls = require('tls')
+const env = process.env
 
 /**
  * Various server configuration options
@@ -10,10 +11,10 @@ const tls = require('tls')
  */
 
 const SERVER = {
-  HOSTNAME: process.env.MAILSERVER_HOSTNAME || os.hostname(),
-  DEBUG: process.env.MAILSERVER_DEBUG === 'true' || false,
+  HOSTNAME: env.MAILSERVER_HOSTNAME || os.hostname(),
+  DEBUG: env.MAILSERVER_DEBUG === 'true' || false,
   SSL: {
-    MIN_VERSION: process.env.MAILSERVER_SSL_MIN_VERSION || tls.DEFAULT_MIN_VERSION
+    MIN_VERSION: env.MAILSERVER_SSL_MIN_VERSION || tls.DEFAULT_MIN_VERSION
   },
   PORTS: {
     NORM: 25,
