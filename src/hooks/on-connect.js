@@ -31,18 +31,22 @@ const handler = async ({ remoteAddress }, callback) => {
 
         log.debug(`${wildcards.length} potential matching wildcard(s).`)
 
+        // Start checking for wildcard matches
         for (let i = 0; i < wildcards.length; i++) {
           const curr = wildcards[i]
           const cbits = curr.split('.')
 
+          // Make sure wildcard has same segments as remote address
           if (rbits.length !== cbits.length) {
             log.debug(`Skipping ${curr} check: Different length.`)
 
             continue
           }
 
+          // Map remote address to include wildcard flags
           const mapped = rbits.map((r, j) => cbits[j] === '*' ? '*' : r).join('.')
 
+          // Directly compare wildcard and mapped remote address
           if (mapped === curr) {
             valid = true
 
