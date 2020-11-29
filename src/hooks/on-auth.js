@@ -1,6 +1,7 @@
 const dir = require('make-dir')
 
 const constants = require('../constants')
+const integrations = require('../integrations')
 const file = require('../utilities/file')
 const log = require('../utilities/log')
 
@@ -13,11 +14,20 @@ const handler = async (auth, _, callback) => {
 
     log.info(`${auth.username} is attempting to authenticate.`)
 
+    await integrations.slack.checkAndNotify(
+      'auth', `${auth.username} is attempting to authenticate.`
+    )
+
     // Check that valid JSON file exists
     if (users && typeof users === 'object') {
       // Attempt to find username in supplied valid users and compare passwords
       if (!users[auth.username] || users[auth.username] !== auth.password) {
         log.verbose(`${auth.username} unsuccessfully authenticated.`)
+
+        await integrations.slack.checkAndNotify(
+          'auth', `${auth.username} unsuccessfully authenticated.`
+        )
+
         callback(new Error('Invalid username or password.'))
 
         return
@@ -33,6 +43,10 @@ const handler = async (auth, _, callback) => {
   }
 
   log.verbose(`${auth.username} successfully authenticated.`)
+
+  await integrations.slack.checkAndNotify(
+    'auth', `${auth.username} successfully authenticated.`
+  )
 
   await dir(constants.PATH.STORAGE.MAIL(auth.username))
 

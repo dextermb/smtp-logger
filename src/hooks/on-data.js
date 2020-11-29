@@ -1,15 +1,19 @@
 const parser = require('mailparser').simpleParser
 
 const constants = require('../constants')
-const env = require('../utilities/env')
+const integrations = require('../integrations')
 const file = require('../utilities/file')
 const mail = require('../utilities/mail')
 const log = require('../utilities/log')
 
-const handler = (stream, { user }, callback) => {
+const handler = async (stream, { user }, callback) => {
   const chunks = []
 
   log.verbose(`Email received from ${user}.`)
+
+  await integrations.slack.checkAndNotify(
+    'data', `Email received from ${user}.`
+  )
 
   stream.on('data', chunk => chunks.push(chunk))
 
@@ -173,7 +177,13 @@ const handler = (stream, { user }, callback) => {
       await mail.fromJson(parsed)
     )
 
-    log.verbose(`Email written to disk at ${constants.PATH.STORAGE.MAIL(user, now)}`)
+    const dir = constants.PATH.STORAGE.MAIL(user, now)
+
+    log.verbose(`Email written to disk at ${dir}`)
+
+    await integrations.slack.checkAndNotify(
+      'data', `Email written to disk at ${dir}`
+    )
 
     callback()
   })

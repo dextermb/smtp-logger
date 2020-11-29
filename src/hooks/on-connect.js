@@ -1,4 +1,5 @@
 const constants = require('../constants')
+const integrations = require('../integrations')
 const file = require('../utilities/file')
 const log = require('../utilities/log')
 
@@ -11,6 +12,10 @@ const handler = async ({ remoteAddress }, callback) => {
 
     log.info(`${remoteAddress} is attempting to connect.`)
 
+    await integrations.slack.checkAndNotify(
+      'connect', `${remoteAddress} is attempting to connect.`
+    )
+
     // Check that valid JSON file exists
     if (ips && Array.isArray(ips)) {
       // Attempt to find a 1:1 ip address
@@ -21,6 +26,11 @@ const handler = async ({ remoteAddress }, callback) => {
 
         if (wildcards.length === 0) {
           log.verbose(`${remoteAddress} blocked.`)
+
+          await integrations.slack.checkAndNotify(
+            'connect', `${remoteAddress} blocked.`
+          )
+
           callback(new Error(`Connections from ${remoteAddress} is not allowed.`))
 
           return
@@ -56,6 +66,11 @@ const handler = async ({ remoteAddress }, callback) => {
 
         if (valid === false) {
           log.verbose(`${remoteAddress} blocked.`)
+
+          await integrations.slack.checkAndNotify(
+            'connect', `${remoteAddress} blocked.`
+          )
+
           callback(new Error(`Connections from ${remoteAddress} is not allowed.`))
 
           return
@@ -63,12 +78,19 @@ const handler = async ({ remoteAddress }, callback) => {
       }
     } else {
       log.error(`Invalid ${pathKey} JSON provided.`)
+      callback(new Error(`Connections from ${remoteAddress} is not allowed.`))
+
+      return
     }
   } else {
     log.debug('MAILSERVER_AUTH_VALID_IPS_PATH is not set.')
   }
 
   log.verbose(`${remoteAddress} successfully accepted.`)
+
+  await integrations.slack.checkAndNotify(
+    'connect', `${remoteAddress} successfully accepted.`
+  )
 
   callback()
 }
