@@ -1,16 +1,15 @@
 const dir = require('make-dir')
 
 const constants = require('../constants')
-const env = require('../utilities/env')
 const file = require('../utilities/file')
 const log = require('../utilities/log')
 
 const handler = async (auth, _, callback) => {
-  const pathKey = 'MAILSERVER_AUTH_VALID_USERS_PATH'
+  const pathKey = constants.PATH.AUTH.VALID_USERS_PATH
 
   // Check that path key is set
-  if (env.isset(pathKey)) {
-    const users = await file.json(env.get(pathKey))
+  if (pathKey) {
+    const users = await file.json(pathKey)
 
     log.info(`${auth.username} is attempting to authenticate.`)
 
@@ -30,7 +29,7 @@ const handler = async (auth, _, callback) => {
       return
     }
   } else {
-    log.debug(`'${pathKey}' is not set.`)
+    log.debug('MAILSERVER_AUTH_VALID_USERS_PATH is not set.')
   }
 
   log.verbose(`${auth.username} successfully authenticated.`)

@@ -14,8 +14,8 @@ const handler = (stream, { user }, callback) => {
   stream.on('data', chunk => chunks.push(chunk))
 
   stream.on('end', async () => {
-    const rulesPath = 'MAILSERVER_REDACT_RULES_PATH'
-    const filtersPath = 'MAILSERVER_REDACT_FILTERS_PATH'
+    const rulesPath = constants.PATH.REDACT.RULES_PATH
+    const filtersPath = constants.PATH.REDACT.FILTERS_PATH
     const now = `${+new Date()}`
 
     // Convert raw email into an object
@@ -23,8 +23,8 @@ const handler = (stream, { user }, callback) => {
     const parsed = await parser(data)
 
     // Check that the rules file exists
-    if (env.isset(rulesPath)) {
-      const obj = await file.json(env.get(rulesPath))
+    if (rulesPath) {
+      const obj = await file.json(rulesPath)
 
       if (obj && typeof obj === 'object') {
         const rules = Object.entries(obj)
@@ -97,12 +97,12 @@ const handler = (stream, { user }, callback) => {
         log.error(`Invalid ${rulesPath} JSON provided.`)
       }
     } else {
-      log.debug(`'${rulesPath}' is not set.`)
+      log.debug('MAILSERVER_REDACT_RULES_PATH is not set.')
     }
 
     // Check that the filters file exists
-    if (env.isset(filtersPath)) {
-      const obj = await file.json(env.get(filtersPath))
+    if (filtersPath) {
+      const obj = await file.json(filtersPath)
 
       if (obj && typeof obj === 'object') {
         const filters = Object.entries(obj)
@@ -158,7 +158,7 @@ const handler = (stream, { user }, callback) => {
         log.error(`Invalid ${filtersPath} JSON provided.`)
       }
     } else {
-      log.debug(`'${filtersPath}' is not set.`)
+      log.debug('MAILSERVER_REDACT_FILTERS_PATH is not set.')
     }
 
     // Write JSON to file

@@ -1,13 +1,13 @@
-const env = require('../utilities/env')
+const constants = require('../constants')
 const file = require('../utilities/file')
 const log = require('../utilities/log')
 
 const handler = async ({ remoteAddress }, callback) => {
-  const pathKey = 'MAILSERVER_AUTH_VALID_IPS_PATH'
+  const pathKey = constants.PATH.AUTH.VALID_IPS_PATH
 
   // Check that path key is set
-  if (env.isset(pathKey)) {
-    const ips = await file.json(env.get(pathKey))
+  if (pathKey) {
+    const ips = await file.json(pathKey)
 
     log.info(`${remoteAddress} is attempting to connect.`)
 
@@ -65,7 +65,7 @@ const handler = async ({ remoteAddress }, callback) => {
       log.error(`Invalid ${pathKey} JSON provided.`)
     }
   } else {
-    log.debug(`'${pathKey}' is not set.`)
+    log.debug('MAILSERVER_AUTH_VALID_IPS_PATH is not set.')
   }
 
   log.verbose(`${remoteAddress} successfully accepted.`)
