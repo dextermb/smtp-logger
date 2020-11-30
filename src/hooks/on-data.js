@@ -123,7 +123,7 @@ const handler = async (stream, { user }, callback) => {
             case constants.SERVER.REDACT.SCOPE.SUBJECT:
               // Filter basic subject
               if (parsed.subject) {
-                parsed.subject = parsed.subject.replace(regexp, replacement)
+                parsed.subject = parsed.subject.replace(regexp, replacement, 'gm')
               }
 
               // Filter header subject
@@ -132,7 +132,7 @@ const handler = async (stream, { user }, callback) => {
                 const header = headers.findIndex(h => h[0] === 'subject')
 
                 if (header !== -1) {
-                  headers[header][1] = headers[header][1].replace(regexp, replacement)
+                  headers[header][1] = headers[header][1].replace(regexp, replacement, 'gm')
                   parsed.headers = new Map(headers)
                 }
               }
@@ -143,18 +143,18 @@ const handler = async (stream, { user }, callback) => {
                 const header = headers.indexOf(({ key }) => key === 'subject')
 
                 if (header !== -1) {
-                  parsed.headerLines[header].line = headers[header].line.replace(regexp, replacement)
+                  parsed.headerLines[header].line = headers[header].line.replace(regexp, replacement, 'gm')
                 }
               }
 
               break
             case constants.SERVER.REDACT.SCOPE.CONTENT:
               if (parsed.text) {
-                parsed.text = parsed.text.replace(regexp, replacement)
+                parsed.text = parsed.text.replace(regexp, replacement, 'gm')
               }
 
               if (parsed.textAsHtml && typeof parsed.textAsHtml === 'string') {
-                parsed.textAsHtml = parsed.textAsHtml.replace(regexp, replacement)
+                parsed.textAsHtml = parsed.textAsHtml.replace(regexp, replacement, 'gm')
               }
           }
         }
