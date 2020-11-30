@@ -139,7 +139,7 @@ const handler = async (stream, { user }, callback) => {
 
               // Filter header line subject
               if (parsed.headerLines && Array.isArray(parsed.headerLines)) {
-                const headers = parsed.headerlInes
+                const headers = parsed.headerLines
                 const header = headers.indexOf(({ key }) => key === 'subject')
 
                 if (header !== -1) {
